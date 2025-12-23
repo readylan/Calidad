@@ -129,20 +129,21 @@ Debe crear una regla de registro que restrinja el permiso de escritura del grupo
 1. Crear la Regla de Bloqueo (Inalterabilidad)
 Esta regla debe aplicarse a los grupos que tienen permiso de escritura (por ejemplo, el grupo Employee) y debe impedirles escribir si el registro ya tiene una hora de salida.
 
-Campo	Valor	Descripción
-Objeto	Asistencia (hr.attendance)	
-Grupo	Employee (o el grupo con permisos de escritura)	
-Permisos	Escritura: Desmarcar	Esta regla se aplicará al permiso de escritura.
-Dominio de Regla	[('check_out', '!=', False)]	Aplica la restricción a todos los registros que ya tienen una salida (completados).
-Resultado	El empleado no puede modificar ningún campo de los registros donde ya existe check_out.	
+**Campo	            Valor	                        Descripción**
+Objeto	            Asistencia (hr.attendance)	
+Grupo	            Employee (o el grupo con permisos de escritura)	
+Permisos	        **Escritura: Desmarcar**	        Esta regla se aplicará al permiso de escritura.
+Dominio de Regla	**[('check_out', '!=', False)]**	Aplica la restricción a todos los registros que ya tienen una salida (completados).
+Resultado	        El empleado no puede modificar ningún campo de los registros donde ya existe check_out.	
+
 2. Crear la Regla de Permiso (Permitir Salida)
 Esta regla es complementaria y asegura que el empleado SÍ puede actualizar el registro de la sesión actual para marcar la salida.
 
-Campo	Valor	Descripción
-Objeto	Asistencia (hr.attendance)	
-Grupo	Employee (o el grupo con permisos de escritura)	
-Permisos	Escritura: Marcar	Esta regla anula el bloqueo anterior y otorga el permiso de escritura.
-Dominio de Regla	[('check_out', '=', False), ('user_id', '=', user.id)]	Permite escribir solo en el registro actual (no completado) y solo si pertenece al usuario.
+**Campo	            Valor	                                                Descripción**
+Objeto	            Asistencia (hr.attendance)	
+Grupo	            Employee (o el grupo con permisos de escritura)	
+Permisos	        **Escritura: Marcar**	                                Esta regla anula el bloqueo anterior y otorga el permiso de escritura.
+Dominio de Regla	**[('check_out', '=', False), ('user_id', '=', user.id)]**	Permite escribir solo en el registro actual (no completado) y solo si pertenece al usuario.
 Resultado	El empleado puede establecer la hora check_out en el registro abierto, pero no en ningún otro registro.	
 🎯 Funcionamiento Garantizado
 Al aplicar estas dos reglas simultáneamente, se logra la inalterabilidad:
